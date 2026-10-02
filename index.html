@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#6d5dfc">
+  <meta name="description" content="Kotoba — Japanese kanji, vocabulary, grammar and review">
+  <title>Kotoba — Japanese Learning</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">言</div>
+    <div><b>Kotoba</b><small>Japanese Learning</small></div>
+  </div>
+  <div class="top-actions">
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+    <button class="icon-btn" id="settingsBtn" aria-label="Settings">⚙</button>
+  </div>
+</header>
+
+<div id="loading" class="loading-screen">
+  <div class="spinner"></div>
+  <h2>Loading Kotoba</h2>
+  <p id="loadingText">Preparing Japanese data…</p>
+</div>
+
+<main id="app" class="app hidden">
+  <section id="homePage" class="page active">
+    <div class="hero">
+      <div>
+        <span class="eyebrow">YOUR JAPANESE JOURNEY</span>
+        <h1>Learn Japanese,<br>one step at a time.</h1>
+        <p>Kanji, vocabulary, grammar, examples and spaced review in one place.</p>
+        <div class="hero-actions">
+          <button class="btn white" id="startReviewBtn">Start review</button>
+          <button class="btn dark" id="browseKanjiBtn">Browse kanji</button>
+        </div>
+      </div>
+      <div class="hero-character">日</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card"><span>🔥</span><strong id="statStreak">0</strong><small>day streak</small></div>
+      <div class="stat-card"><span>📚</span><strong id="statStudied">0</strong><small>studied</small></div>
+      <div class="stat-card"><span>⭐</span><strong id="statMastered">0</strong><small>mastered</small></div>
+      <div class="stat-card"><span>🔁</span><strong id="statReviews">0</strong><small>reviews</small></div>
+    </div>
+
+    <div class="section-head"><h2>JLPT</h2><button class="text-btn" id="allKanjiBtn">All kanji →</button></div>
+    <div id="jlptGrid" class="level-grid"></div>
+
+    <div class="section-head"><h2>Continue learning</h2></div>
+    <div class="feature-grid">
+      <button class="feature-card" data-page="review"><span>🧠</span><b>Review</b><small>Practice cards due for review</small></button>
+      <button class="feature-card" data-page="vocab"><span>語</span><b>Vocabulary</b><small>Search common Japanese words</small></button>
+      <button class="feature-card" data-page="grammar"><span>文</span><b>Grammar</b><small>Explore JLPT grammar points</small></button>
+      <button class="feature-card" data-page="writing"><span>筆</span><b>Writing</b><small>Practice kanji strokes</small></button>
+    </div>
+  </section>
+
+  <section id="kanjiPage" class="page">
+    <div class="page-head"><div><h1>Kanji</h1><p id="kanjiCount">Loading…</p></div></div>
+    <div class="toolbar">
+      <input id="kanjiSearch" class="search" placeholder="Search kanji, meaning or reading…">
+      <div id="kanjiFilters" class="chips"></div>
+    </div>
+    <div id="kanjiGrid" class="kanji-grid"></div>
+    <button id="kanjiMore" class="btn outline wide">Load more</button>
+  </section>
+
+  <section id="vocabPage" class="page">
+    <div class="page-head"><div><h1>Vocabulary</h1><p id="wordCount">Loading…</p></div></div>
+    <div class="toolbar">
+      <input id="wordSearch" class="search" placeholder="Search Japanese, kana or English…">
+      <div id="wordFilters" class="chips"></div>
+    </div>
+    <div id="wordList" class="word-list"></div>
+    <button id="wordMore" class="btn outline wide">Load more</button>
+  </section>
+
+  <section id="reviewPage" class="page">
+    <div class="page-head"><div><h1>Review</h1><p id="reviewMeta">Spaced review</p></div></div>
+    <div id="reviewCard" class="review-card"></div>
+    <div id="reviewButtons" class="review-buttons">
+      <button data-rating="again" class="r-again">Again</button>
+      <button data-rating="hard" class="r-hard">Hard</button>
+      <button data-rating="good" class="r-good">Good</button>
+      <button data-rating="easy" class="r-easy">Easy</button>
+    </div>
+  </section>
+
+  <section id="writingPage" class="page">
+    <div class="page-head"><div><h1>Writing</h1><p>Trace the stroke order, then draw it yourself.</p></div></div>
+    <div class="writing-layout">
+      <div class="card">
+        <div class="writing-target">
+          <div class="target-char" id="writingChar">日</div>
+          <div><b id="writingMeaning">day / sun</b><small id="writingReading">ニチ · ひ</small></div>
+          <button class="icon-btn" id="writingSpeak">🔊</button>
+        </div>
+        <div id="strokeBox" class="stroke-box"><div class="stroke-placeholder">Stroke order will appear here.</div></div>
+        <div class="writing-actions">
+          <button class="btn outline" id="showStrokeBtn">Show stroke order</button>
+          <button class="btn outline" id="clearCanvasBtn">Clear</button>
+          <button class="btn primary" id="nextWritingBtn">Next</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Draw it</h3>
+        <canvas id="drawCanvas"></canvas>
+        <p class="muted">Use your finger on mobile.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="grammarPage" class="page">
+    <div class="page-head"><div><h1>Grammar</h1><p id="grammarCount">Loading…</p></div></div>
+    <div class="toolbar"><input id="grammarSearch" class="search" placeholder="Search grammar pattern or meaning…"></div>
+    <div id="grammarList" class="grammar-list"></div>
+  </section>
+
+  <section id="progressPage" class="page">
+    <div class="page-head"><div><h1>Progress</h1><p>Your learning statistics are stored on this device.</p></div></div>
+    <div class="card progress-card">
+      <div class="progress-ring" id="overallRing"><span id="overallPercent">0%</span></div>
+      <div><h2 id="progressTitle">Getting started</h2><p id="progressText" class="muted"></p></div>
+    </div>
+    <div id="progressLevels" class="progress-levels"></div>
+  </section>
+
+  <section id="settingsPage" class="page">
+    <div class="page-head"><div><h1>Settings</h1><p>Kotoba preferences and data.</p></div></div>
+    <div class="settings-list">
+      <button class="setting-row" id="themeSetting"><span>🌙<b>Dark mode</b></span><i id="themeState">Off</i></button>
+      <button class="setting-row" id="exportBtn"><span>⬇️<b>Export progress</b></span><i>JSON</i></button>
+      <label class="setting-row file-row"><span>⬆️<b>Import progress</b></span><input id="importInput" type="file" accept=".json"></label>
+      <button class="setting-row danger-row" id="resetBtn"><span>🗑️<b>Reset progress</b></span><i>Reset</i></button>
+    </div>
+    <div class="card credits">
+      <h3>Data & attribution</h3>
+      <p>Kotoba uses openly licensed Japanese-language data from JMdict/KANJIDIC2, KanjiVG, Tatoeba and related projects. See README.md for attribution and license details.</p>
+    </div>
+  </section>
+</main>
+
+<nav id="bottomNav" class="bottom-nav">
+  <button data-page="home" class="nav active">⌂<small>Home</small></button>
+  <button data-page="kanji" class="nav">字<small>Kanji</small></button>
+  <button data-page="vocab" class="nav">語<small>Words</small></button>
+  <button data-page="review" class="nav">🧠<small>Review</small></button>
+  <button data-page="progress" class="nav">◔<small>Progress</small></button>
+</nav>
+
+<div id="modal" class="modal" aria-hidden="true">
+  <div class="modal-panel">
+    <div class="modal-head"><b id="modalTitle">Details</b><button class="icon-btn" id="modalClose">×</button></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+<div id="toast" class="toast"></div>
+
+<script type="module">
+  import { DataLoader } from "./data-loader.js";
+  import { KotobaApp } from "./app.js";
+
+  const loader = new DataLoader();
+  const app = new KotobaApp(loader);
+  app.init().catch(err => {
+    console.error(err);
+    document.getElementById("loadingText").textContent =
+      "Data could not be loaded. Check your GitHub Pages URL and try again.";
+  });
+</script>
+</body>
+</html>
