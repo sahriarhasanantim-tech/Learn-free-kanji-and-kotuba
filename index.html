@@ -4,9 +4,40 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#6d5dfc">
-  <meta name="description" content="Kotoba — Japanese kanji, vocabulary, grammar and review">
+  <meta name="description" content="Kotoba — Japanese kanji, vocabulary, grammar and review. Data loads automatically online.">
   <title>Kotoba — Japanese Learning</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+*{box-sizing:border-box}
+:root{--bg:#f5f6fb;--card:#fff;--text:#171823;--muted:#747786;--border:#e6e7ef;--primary:#6d5dfc;--primary2:#9187ff;--shadow:0 12px 35px rgba(36,34,74,.08);--danger:#d64c4c}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+body.dark{--bg:#101116;--card:#181920;--text:#f3f3f6;--muted:#a3a4af;--border:#292a33;--shadow:0 12px 35px rgba(0,0,0,.25)}
+button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}.muted{color:var(--muted)}
+.topbar{height:68px;position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.brand,.top-actions,.brand>div{display:flex;align-items:center}.brand{gap:10px}.brand small{display:block;color:var(--muted);font-size:10px;margin-top:1px}.brand-mark{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--primary),var(--primary2));font-size:23px;font-family:serif}.topbar{padding:0 max(16px,calc((100vw - 1100px)/2))}.topbar{display:flex;justify-content:space-between;align-items:center}.top-actions{gap:8px}
+.icon-btn{width:42px;height:42px;border:1px solid var(--border);border-radius:12px;background:var(--card);color:var(--text)}
+.app{max-width:1100px;margin:auto;padding:22px 16px 105px}.page{display:none}.page.active{display:block}
+.hero{min-height:270px;border-radius:28px;padding:30px;color:#fff;background:linear-gradient(135deg,#6252f4,#9389ff);display:flex;justify-content:space-between;align-items:center;overflow:hidden;box-shadow:var(--shadow)}.eyebrow{font-size:11px;letter-spacing:1.5px;opacity:.8}.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.04;margin:9px 0}.hero p{max-width:550px;opacity:.9}.hero-character{font:180px/1 serif;opacity:.16;margin-right:20px}.hero-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:22px}
+.btn{border:0;border-radius:13px;padding:12px 17px;font-weight:800}.btn.primary{background:var(--primary);color:#fff}.btn.white{background:#fff;color:#5c4de7}.btn.dark{background:#211c52;color:#fff}.btn.outline{background:var(--card);color:var(--text);border:1px solid var(--border)}.btn.wide{width:100%;margin-top:15px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:15px 0}.stat-card{background:var(--card);border:1px solid var(--border);border-radius:17px;padding:15px;box-shadow:var(--shadow)}.stat-card span{font-size:19px}.stat-card strong{display:block;font-size:25px;margin-top:7px}.stat-card small{color:var(--muted)}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:28px 2px 13px}.section-head h2{font-size:19px;margin:0}.text-btn{border:0;background:transparent;color:var(--primary);font-weight:800}
+.level-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.level-card{border:1px solid var(--border);background:var(--card);border-radius:18px;padding:17px;cursor:pointer;box-shadow:var(--shadow)}.level-card b{font-size:27px}.level-card p{font-size:12px;color:var(--muted);margin:4px 0}.bar{height:6px;background:#ededf4;border-radius:99px;overflow:hidden;margin-top:12px}.dark .bar{background:#2a2b34}.bar i{display:block;height:100%;background:var(--primary);width:0}
+.feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.feature-card{text-align:left;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:18px;padding:17px;box-shadow:var(--shadow)}.feature-card span{font-size:27px;display:block;margin-bottom:12px}.feature-card b{display:block}.feature-card small{display:block;color:var(--muted);margin-top:4px}
+.page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.page-head h1{margin:0;font-size:30px}.page-head p{margin:5px 0 0;color:var(--muted)}
+.toolbar{margin-bottom:15px}.search{width:100%;padding:14px 15px;border-radius:14px;border:1px solid var(--border);background:var(--card);color:var(--text);outline:none}.search:focus{border-color:var(--primary)}.chips{display:flex;gap:7px;overflow:auto;padding:9px 0}.chip{white-space:nowrap;border:1px solid var(--border);background:var(--card);color:var(--muted);padding:8px 12px;border-radius:999px}.chip.active{background:#eeecff;color:var(--primary);border-color:#dcd8ff;font-weight:800}
+.kanji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.kanji-card{background:var(--card);border:1px solid var(--border);border-radius:17px;padding:13px 7px;text-align:center;cursor:pointer;min-height:132px;box-shadow:var(--shadow)}.kanji-char{font:44px/1.1 "Noto Serif JP","Yu Mincho",serif}.kanji-card b{display:block;font-size:11px;margin-top:8px}.kanji-card small{display:block;color:var(--muted);margin-top:4px}.level-pill{display:inline-block;font-size:10px;font-weight:800;color:var(--primary);background:#efedff;border-radius:8px;padding:3px 7px;margin-top:7px}
+.word-list,.grammar-list{display:grid;gap:10px}.word-row,.grammar-row{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:15px;box-shadow:var(--shadow);cursor:pointer}.word-main{display:flex;justify-content:space-between;gap:12px}.jp{font-size:23px;font-family:serif}.kana{color:var(--primary);margin-top:2px}.meaning{color:var(--muted);margin-top:5px}.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}.tag{font-size:10px;border-radius:7px;background:#f0f0f6;color:var(--muted);padding:4px 7px}.dark .tag{background:#24252d}
+.review-card{min-height:430px;background:var(--card);border:1px solid var(--border);border-radius:25px;box-shadow:var(--shadow);display:grid;place-items:center;text-align:center;padding:30px}.review-inner{width:100%}.review-char{font:110px/1.1 serif}.review-reading{font-size:25px;color:var(--primary);margin-top:10px}.review-meaning{color:var(--muted);margin-top:6px}.review-extra{margin-top:25px;color:var(--muted);font-size:13px}.review-buttons{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.review-buttons button{border:0;border-radius:13px;padding:13px;font-weight:900}.r-again{background:#ffe7e7;color:#c53e3e}.r-hard{background:#fff0d9;color:#a96800}.r-good{background:#e3f7ed;color:#137d53}.r-easy{background:#e9e8ff;color:#5548cc}
+.writing-layout{display:grid;grid-template-columns:1fr 1fr;gap:13px}.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:18px;box-shadow:var(--shadow)}.writing-target{display:flex;align-items:center;gap:15px}.target-char{font:82px/1 serif}.writing-target small{display:block;color:var(--muted);margin-top:4px}.writing-target .icon-btn{margin-left:auto}.stroke-box{min-height:270px;margin:16px 0;border-radius:16px;background:#fafafe;display:grid;place-items:center;overflow:hidden}.dark .stroke-box{background:#202129}.stroke-box svg{width:260px;height:260px}.stroke-placeholder{color:var(--muted);padding:20px;text-align:center}.writing-actions{display:flex;gap:8px;flex-wrap:wrap}#drawCanvas{display:block;width:100%;height:300px;border:2px dashed var(--border);border-radius:16px;touch-action:none;background:#fff}.dark #drawCanvas{background:#111217}
+.progress-card{display:flex;align-items:center;gap:20px}.progress-ring{width:130px;height:130px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--primary) 0deg,#e9e9f0 0deg);flex:none}.dark .progress-ring{background:conic-gradient(var(--primary) 0deg,#2a2b34 0deg)}.progress-ring:after{content:"";position:absolute}.progress-ring span{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:var(--card);font-weight:900}.progress-levels{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.settings-list{display:grid;gap:9px}.setting-row{width:100%;display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:15px;padding:15px;color:var(--text);text-align:left}.setting-row span{display:flex;gap:12px;align-items:center}.setting-row i{font-style:normal;color:var(--muted);font-size:12px}.danger-row{color:var(--danger)}.file-row input{max-width:150px}.credits{margin-top:14px}
+.bottom-nav{position:fixed;z-index:25;left:50%;bottom:10px;transform:translateX(-50%);width:min(700px,calc(100% - 18px));background:color-mix(in srgb,var(--card) 95%,transparent);backdrop-filter:blur(16px);border:1px solid var(--border);box-shadow:var(--shadow);border-radius:20px;display:grid;grid-template-columns:repeat(5,1fr);padding:6px}.nav{border:0;background:transparent;color:var(--muted);padding:8px;border-radius:13px;font-size:19px}.nav small{display:block;font-size:10px;margin-top:3px}.nav.active{background:#efedff;color:var(--primary);font-weight:800}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;padding:16px}.modal.show{display:flex}.modal-panel{width:min(700px,100%);max-height:92vh;overflow:auto;background:var(--card);border-radius:24px;padding:20px}.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.detail-kanji{text-align:center;font:130px/1 serif}.detail-center{text-align:center}.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:15px 0}.info-box{background:#f5f5fa;border-radius:13px;padding:12px}.dark .info-box{background:#22232b}.info-box small{display:block;color:var(--muted)}.example{border-left:3px solid var(--primary);padding:9px 12px;margin:9px 0;background:#fafaff;border-radius:7px}.dark .example{background:#202129}
+.loading-screen{position:fixed;inset:0;display:grid;place-items:center;align-content:center;text-align:center;background:var(--bg);z-index:100}.spinner{width:42px;height:42px;border:4px solid #ddd;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.toast{position:fixed;z-index:100;bottom:88px;left:50%;transform:translate(-50%,20px);background:#20212a;color:#fff;padding:11px 16px;border-radius:12px;opacity:0;transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:760px){.hero-character{display:none}.stats-grid{grid-template-columns:repeat(2,1fr)}.level-grid{grid-template-columns:repeat(3,1fr)}.feature-grid{grid-template-columns:repeat(2,1fr)}.kanji-grid{grid-template-columns:repeat(4,1fr)}.writing-layout{grid-template-columns:1fr}.progress-levels{grid-template-columns:1fr}}
+@media(max-width:480px){.app{padding-left:12px;padding-right:12px}.level-grid{grid-template-columns:repeat(2,1fr)}.kanji-grid{grid-template-columns:repeat(3,1fr)}.review-buttons{grid-template-columns:repeat(2,1fr)}.hero{padding:23px}.page-head h1{font-size:26px}.target-char{font-size:68px}}
+
+</style>
 </head>
 <body>
 <header class="topbar">
@@ -140,7 +171,7 @@
     </div>
     <div class="card credits">
       <h3>Data & attribution</h3>
-      <p>Kotoba uses openly licensed Japanese-language data from JMdict/KANJIDIC2, KanjiVG, Tatoeba and related projects. See README.md for attribution and license details.</p>
+      <p>Kotoba loads openly licensed Japanese-language data automatically online from the project dataset. No JSON data files are required in your GitHub repository. See the dataset attribution and license information in the project README.</p>
     </div>
   </section>
 </main>
@@ -161,17 +192,691 @@
 </div>
 <div id="toast" class="toast"></div>
 
-<script type="module">
-  import { DataLoader } from "./data-loader.js";
-  import { KotobaApp } from "./app.js";
+<script>
+/* Embedded data loader: no JSON data files need to be uploaded to GitHub.
+   The app downloads open Japanese-language data directly from the public dataset. */
+/*
+  Kotoba data loader
+  Default source: jkindrix/japanese-language-data
+  You can switch DATA_BASE below to your own GitHub repository after
+  downloading/copying the data files.
+*/
 
-  const loader = new DataLoader();
-  const app = new KotobaApp(loader);
-  app.init().catch(err => {
-    console.error(err);
-    document.getElementById("loadingText").textContent =
-      "Data could not be loaded. Check your GitHub Pages URL and try again.";
-  });
+const DATA_BASE =
+  "https://raw.githubusercontent.com/jkindrix/japanese-language-data/main/data";
+
+const DATA_FILES = {
+  kanji: `${DATA_BASE}/core/kanji.json`,
+  words: `${DATA_BASE}/core/words.json`,
+  radicals: `${DATA_BASE}/core/radicals.json`,
+  sentences: `${DATA_BASE}/corpus/sentences.json`,
+  grammar: `${DATA_BASE}/grammar/grammar.json`,
+  conjugations: `${DATA_BASE}/grammar/conjugations.json`,
+  jlpt: `${DATA_BASE}/enrichment/jlpt-classifications.json`,
+  strokeIndex: `${DATA_BASE}/enrichment/stroke-order-index.json`
+};
+
+function unwrap(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (!raw || typeof raw !== "object") return [];
+  for (const key of ["data","items","entries","records","classifications","kanji","words","sentences","grammar","conjugations"]) {
+    if (Array.isArray(raw[key])) return raw[key];
+  }
+  return raw;
+}
+
+async function fetchJSON(url) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 60000);
+  let response;
+  try {
+    response = await fetch(url, { cache: "force-cache", signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+  if (!response.ok) throw new Error(`HTTP ${response.status}: ${url}`);
+  return response.json();
+}
+
+class DataLoader {
+  constructor() {
+    this.cache = new Map();
+  }
+
+  async get(name) {
+    if (this.cache.has(name)) return this.cache.get(name);
+    const url = DATA_FILES[name];
+    if (!url) throw new Error(`Unknown dataset: ${name}`);
+    const promise = fetchJSON(url).then(unwrap);
+    this.cache.set(name, promise);
+    return promise;
+  }
+
+  async loadCore() {
+    const results = await Promise.allSettled([
+      this.get("kanji"),
+      this.get("words"),
+      this.get("radicals"),
+      this.get("sentences"),
+      this.get("grammar"),
+      this.get("conjugations"),
+      this.get("jlpt"),
+      this.get("strokeIndex")
+    ]);
+
+    const names = ["kanji","words","radicals","sentences","grammar","conjugations","jlpt","strokeIndex"];
+    const data = {};
+    results.forEach((r, i) => {
+      data[names[i]] = r.status === "fulfilled" ? r.value : [];
+    });
+
+    return data;
+  }
+
+  async strokeSVG(character, strokeIndex) {
+    let file = null;
+
+    if (strokeIndex && typeof strokeIndex === "object" && !Array.isArray(strokeIndex)) {
+      const hit = strokeIndex[character];
+      if (typeof hit === "string") file = hit;
+      else if (hit && typeof hit === "object") file = hit.svg || hit.file || hit.filename;
+    }
+
+    if (!file) {
+      const cp = character.codePointAt(0).toString(16).padStart(5, "0").toLowerCase();
+      file = `${cp}.svg`;
+    }
+
+    const candidates = [
+      `${DATA_BASE}/enrichment/stroke-order/${file}`,
+      `${DATA_BASE}/enrichment/stroke-order/${String(file).replace(/^.*[\/]/,"")}`
+    ];
+
+    for (const url of candidates) {
+      try {
+        const r = await fetch(url, {cache:"force-cache"});
+        if (r.ok) return await r.text();
+      } catch (_) {}
+    }
+    return null;
+  }
+}
+
+
+
+
+const STORAGE = "kotoba_state_v2";
+
+function safeJSON(value, fallback) {
+  try { return JSON.parse(value) ?? fallback; } catch { return fallback; }
+}
+
+function defaultState() {
+  return {
+    studied: [],
+    mastered: [],
+    favorites: [],
+    reviews: 0,
+    streak: 0,
+    lastStudy: "",
+    srs: {},
+    settings: { dark: false }
+  };
+}
+
+function loadState() {
+  const saved = safeJSON(localStorage.getItem(STORAGE), null);
+  return {...defaultState(), ...(saved || {}), settings:{...defaultState().settings,...(saved?.settings || {})}};
+}
+
+function esc(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+}
+
+function arr(v) {
+  if (Array.isArray(v)) return v;
+  if (v == null) return [];
+  return [v];
+}
+
+function first(v) {
+  return arr(v)[0] ?? "";
+}
+
+function textOfMeaning(v) {
+  if (Array.isArray(v)) {
+    return v.map(x => typeof x === "string" ? x : (x?.gloss || x?.meaning || x?.text || "")).filter(Boolean).join(", ");
+  }
+  if (typeof v === "object" && v) return v.gloss || v.meaning || v.text || "";
+  return String(v ?? "");
+}
+
+function getChar(k) {
+  return k?.character || k?.kanji || k?.literal || k?.k || k?.glyph || "";
+}
+
+function getMean(k) {
+  return textOfMeaning(k?.meanings || k?.meaning || k?.glosses || k?.gloss || "");
+}
+
+function getOn(k) {
+  return arr(k?.onyomi || k?.on || k?.onYomi || k?.readings?.onyomi).join(" · ");
+}
+
+function getKun(k) {
+  return arr(k?.kunyomi || k?.kun || k?.kunYomi || k?.readings?.kunyomi).join(" · ");
+}
+
+function getLevel(x) {
+  const raw = x?.jlpt || x?.level || x?.jlptLevel || x?.classification?.jlpt || "";
+  const s = String(raw).toUpperCase();
+  const m = s.match(/N[1-5]/);
+  return m ? m[0] : "";
+}
+
+function getStrokes(k) {
+  return k?.strokeCount || k?.strokes || k?.stroke_count || k?.strokeCountTotal || "";
+}
+
+function wordJapanese(w) {
+  const writings = w?.kanji || w?.kanjiWritings || w?.writings || w?.written || [];
+  if (typeof writings === "string") return writings;
+  if (Array.isArray(writings)) return writings.map(x => typeof x === "string" ? x : x?.text || x?.writing || "").filter(Boolean).join("、");
+  return w?.word || w?.japanese || w?.expression || w?.surface || "";
+}
+
+function wordKana(w) {
+  const readings = w?.kana || w?.readings || w?.kanaWritings || [];
+  if (typeof readings === "string") return readings;
+  if (Array.isArray(readings)) return readings.map(x => typeof x === "string" ? x : x?.text || x?.reading || "").filter(Boolean).join("、");
+  return "";
+}
+
+function wordMeaning(w) {
+  return textOfMeaning(w?.senses || w?.meanings || w?.meaning || w?.glosses || "");
+}
+
+function examplesForSentence(s) {
+  const jp = s?.japanese || s?.ja || s?.text || s?.sentence || "";
+  const en = s?.english || s?.en || s?.translation || "";
+  return {jp: typeof jp === "string" ? jp : textOfMeaning(jp), en: typeof en === "string" ? en : textOfMeaning(en)};
+}
+
+class KotobaApp {
+  constructor(loader) {
+    this.loader = loader;
+    this.state = loadState();
+    this.data = {};
+    this.page = "home";
+    this.kanjiFilter = "ALL";
+    this.wordFilter = "ALL";
+    this.kanjiShown = 120;
+    this.wordsShown = 60;
+    this.reviewQueue = [];
+    this.reviewIndex = 0;
+    this.writingIndex = 0;
+    this.canvas = null;
+    this.ctx = null;
+    this.drawing = false;
+  }
+
+  async init() {
+    if (this.state.settings.dark) document.body.classList.add("dark");
+    this.bindStatic();
+    this.setLoading("Loading kanji, vocabulary and grammar…");
+    this.data = await this.loader.loadCore();
+
+    if (!this.data.kanji.length) {
+      this.setLoading("The dataset could not be reached. Check your GitHub Pages network access.");
+      return;
+    }
+
+    this.prepareIndexes();
+    this.renderHome();
+    this.renderKanji();
+    this.renderWords();
+    this.renderGrammar();
+    this.renderReview();
+    this.renderProgress();
+    this.setupCanvas();
+    this.setLoading("Ready");
+    setTimeout(() => {
+      document.getElementById("loading").classList.add("hidden");
+      document.getElementById("app").classList.remove("hidden");
+    }, 250);
+  }
+
+  setLoading(text) {
+    const el = document.getElementById("loadingText");
+    if (el) el.textContent = text;
+  }
+
+  prepareIndexes() {
+    this.kanji = Array.isArray(this.data.kanji) ? this.data.kanji : [];
+    this.words = Array.isArray(this.data.words) ? this.data.words : [];
+    this.grammar = Array.isArray(this.data.grammar) ? this.data.grammar : [];
+    this.sentences = Array.isArray(this.data.sentences) ? this.data.sentences : [];
+    this.strokeIndex = this.data.strokeIndex || {};
+    this.kanjiByChar = new Map(this.kanji.map(k => [getChar(k), k]));
+    this.wordById = new Map(this.words.map(w => [String(w?.id ?? w?.entryId ?? ""), w]));
+    this.sentenceById = new Map(this.sentences.map(s => [String(s?.id ?? s?.sentenceId ?? ""), s]));
+  }
+
+  bindStatic() {
+    document.querySelectorAll(".nav").forEach(b => b.addEventListener("click", () => this.go(b.dataset.page)));
+    document.querySelectorAll(".feature-card").forEach(b => b.addEventListener("click", () => this.go(b.dataset.page)));
+
+    const q = id => document.getElementById(id);
+    q("startReviewBtn").onclick = () => this.go("review");
+    q("browseKanjiBtn").onclick = () => this.go("kanji");
+    q("allKanjiBtn").onclick = () => this.go("kanji");
+    q("themeBtn").onclick = () => this.toggleTheme();
+    q("settingsBtn").onclick = () => this.go("settings");
+    q("themeSetting").onclick = () => this.toggleTheme();
+    q("kanjiSearch").oninput = () => { this.kanjiShown=120; this.renderKanji(); };
+    q("wordSearch").oninput = () => { this.wordsShown=60; this.renderWords(); };
+    q("grammarSearch").oninput = () => this.renderGrammar();
+    q("kanjiMore").onclick = () => { this.kanjiShown += 120; this.renderKanji(); };
+    q("wordMore").onclick = () => { this.wordsShown += 60; this.renderWords(); };
+    q("reviewButtons").onclick = e => {
+      const btn = e.target.closest("button[data-rating]");
+      if (btn) this.rate(btn.dataset.rating);
+    };
+    q("modalClose").onclick = () => this.closeModal();
+    q("modal").onclick = e => { if (e.target.id === "modal") this.closeModal(); };
+    q("showStrokeBtn").onclick = () => this.showStroke();
+    q("clearCanvasBtn").onclick = () => this.clearCanvas();
+    q("nextWritingBtn").onclick = () => this.nextWriting();
+    q("writingSpeak").onclick = () => this.speak(this.currentWritingChar());
+    q("exportBtn").onclick = () => this.exportProgress();
+    q("importInput").onchange = e => this.importProgress(e.target.files?.[0]);
+    q("resetBtn").onclick = () => this.resetProgress();
+
+    window.addEventListener("resize", () => this.resizeCanvas());
+  }
+
+  go(page) {
+    this.page = page;
+    document.querySelectorAll(".page").forEach(x => x.classList.remove("active"));
+    const p = document.getElementById(`${page}Page`);
+    if (p) p.classList.add("active");
+
+    document.querySelectorAll(".nav").forEach(x => x.classList.toggle("active", x.dataset.page === page));
+    if (page === "writing") { this.setupCanvas(); this.renderWritingTarget(); }
+    if (page === "review") this.renderReview();
+    if (page === "progress") this.renderProgress();
+  }
+
+  toggleTheme() {
+    document.body.classList.toggle("dark");
+    this.state.settings.dark = document.body.classList.contains("dark");
+    localStorage.setItem(STORAGE, JSON.stringify(this.state));
+    document.getElementById("themeState").textContent = this.state.settings.dark ? "On" : "Off";
+  }
+
+  renderHome() {
+    document.getElementById("statStreak").textContent = this.state.streak;
+    document.getElementById("statStudied").textContent = this.state.studied.length;
+    document.getElementById("statMastered").textContent = this.state.mastered.length;
+    document.getElementById("statReviews").textContent = this.state.reviews;
+    document.getElementById("themeState").textContent = this.state.settings.dark ? "On" : "Off";
+
+    const box = document.getElementById("jlptGrid");
+    const levels = ["N5","N4","N3","N2","N1"];
+    box.innerHTML = levels.map(level => {
+      const total = this.kanji.filter(k => getLevel(k) === level).length;
+      const mastered = this.state.mastered.filter(c => getLevel(this.kanjiByChar.get(c)) === level).length;
+      const pct = total ? Math.round(mastered / total * 100) : 0;
+      return `<button class="level-card" data-level="${level}">
+        <b>${level}</b><p>${total.toLocaleString()} kanji</p>
+        <div class="bar"><i style="width:${pct}%"></i></div>
+        <small>${mastered} mastered</small>
+      </button>`;
+    }).join("");
+    box.querySelectorAll("[data-level]").forEach(b => b.onclick = () => {
+      this.kanjiFilter = b.dataset.level;
+      this.go("kanji");
+      this.renderKanji();
+    });
+  }
+
+  renderKanji() {
+    if (!this.kanji) return;
+    const query = document.getElementById("kanjiSearch").value.trim().toLowerCase();
+    const levels = ["ALL","N5","N4","N3","N2","N1"];
+    document.getElementById("kanjiFilters").innerHTML = levels.map(l =>
+      `<button class="chip ${this.kanjiFilter===l?"active":""}" data-l="${l}">${l==="ALL"?"All":l}</button>`
+    ).join("");
+    document.querySelectorAll("#kanjiFilters .chip").forEach(b => b.onclick = () => {
+      this.kanjiFilter = b.dataset.l; this.kanjiShown=120; this.renderKanji();
+    });
+
+    let data = this.kanji;
+    if (this.kanjiFilter !== "ALL") data = data.filter(k => getLevel(k) === this.kanjiFilter);
+    if (query) {
+      data = data.filter(k => {
+        const blob = `${getChar(k)} ${getMean(k)} ${getOn(k)} ${getKun(k)}`.toLowerCase();
+        return blob.includes(query);
+      });
+    }
+
+    document.getElementById("kanjiCount").textContent = `${data.length.toLocaleString()} results`;
+    const slice = data.slice(0, this.kanjiShown);
+    document.getElementById("kanjiGrid").innerHTML = slice.map(k => {
+      const c=getChar(k), level=getLevel(k), meaning=getMean(k);
+      return `<button class="kanji-card" data-char="${esc(c)}">
+        <div class="kanji-char">${esc(c)}</div>
+        <b>${esc(meaning.split(",")[0] || "—")}</b>
+        <small>${esc(getOn(k) || getKun(k) || "—")}</small>
+        ${level ? `<span class="level-pill">${esc(level)}</span>` : ""}
+      </button>`;
+    }).join("");
+    document.querySelectorAll("#kanjiGrid .kanji-card").forEach(b => b.onclick = () => this.openKanji(b.dataset.char));
+    document.getElementById("kanjiMore").disabled = this.kanjiShown >= data.length;
+  }
+
+  async openKanji(char) {
+    const k = this.kanjiByChar.get(char);
+    if (!k) return;
+    const examples = this.findExamples(char, 4);
+    const radicals = this.radicalsFor(char, k);
+    const favorite = this.state.favorites.includes(char);
+    const body = `
+      <div class="detail-kanji">${esc(char)}</div>
+      <div class="detail-center">
+        <button class="btn primary" id="speakDetail">🔊 Listen</button>
+        <button class="btn outline" id="favoriteDetail">${favorite?"★ Saved":"☆ Favorite"}</button>
+      </div>
+      <h2>${esc(getMean(k) || "Kanji")}</h2>
+      <div class="info-grid">
+        <div class="info-box"><small>JLPT</small><b>${esc(getLevel(k)||"—")}</b></div>
+        <div class="info-box"><small>Strokes</small><b>${esc(getStrokes(k)||"—")}</b></div>
+        <div class="info-box"><small>On'yomi</small><b>${esc(getOn(k)||"—")}</b></div>
+        <div class="info-box"><small>Kun'yomi</small><b>${esc(getKun(k)||"—")}</b></div>
+      </div>
+      <p><b>Radicals/components:</b> ${esc(radicals || "—")}</p>
+      <h3>Example sentences</h3>
+      ${examples.length ? examples.map(e=>`<div class="example"><b>${esc(e.jp)}</b><br><span class="muted">${esc(e.en)}</span></div>`).join("") : `<p class="muted">No linked example found in the loaded curated corpus.</p>`}
+    `;
+    this.openModal(`${char} · Kanji`, body);
+    document.getElementById("speakDetail").onclick = () => this.speak(char);
+    document.getElementById("favoriteDetail").onclick = () => {
+      this.toggleFavorite(char); this.openKanji(char);
+    };
+  }
+
+  radicalsFor(char, k) {
+    const r = k?.radicals || k?.radical || k?.components;
+    if (Array.isArray(r)) return r.map(x => typeof x==="string"?x:(x?.character||x?.radical||x?.component||"")).filter(Boolean).join(" · ");
+    if (typeof r === "string") return r;
+    const cross = this.data?.radicals;
+    if (Array.isArray(cross)) {
+      const hit = cross.find(x => (x.character||x.kanji||x.radical) === char);
+      if (hit) return textOfMeaning(hit.radicals || hit.components || hit.radical || "");
+    }
+    return "";
+  }
+
+  findExamples(char, limit) {
+    const hits = [];
+    for (const s of this.sentences) {
+      const e = examplesForSentence(s);
+      if (e.jp && e.jp.includes(char)) hits.push(e);
+      if (hits.length >= limit) break;
+    }
+    return hits;
+  }
+
+  renderWords() {
+    if (!this.words) return;
+    const query = document.getElementById("wordSearch").value.trim().toLowerCase();
+    const levels=["ALL","N5","N4","N3","N2","N1"];
+    document.getElementById("wordFilters").innerHTML = levels.map(l =>
+      `<button class="chip ${this.wordFilter===l?"active":""}" data-l="${l}">${l==="ALL"?"All":l}</button>`
+    ).join("");
+    document.querySelectorAll("#wordFilters .chip").forEach(b => b.onclick=()=>{
+      this.wordFilter=b.dataset.l;this.wordsShown=60;this.renderWords();
+    });
+
+    let data=this.words;
+    if(this.wordFilter!=="ALL") data=data.filter(w=>getLevel(w)===this.wordFilter);
+    if(query)data=data.filter(w=>`${wordJapanese(w)} ${wordKana(w)} ${wordMeaning(w)}`.toLowerCase().includes(query));
+
+    document.getElementById("wordCount").textContent=`${data.length.toLocaleString()} results`;
+    document.getElementById("wordList").innerHTML=data.slice(0,this.wordsShown).map(w=>{
+      const jp=wordJapanese(w), kana=wordKana(w), meaning=wordMeaning(w), level=getLevel(w);
+      return `<button class="word-row" data-word="${esc(jp)}">
+        <div class="word-main"><div><div class="jp">${esc(jp||"—")}</div><div class="kana">${esc(kana||"—")}</div><div class="meaning">${esc(meaning||"—")}</div></div>${level?`<span class="level-pill">${esc(level)}</span>`:""}</div>
+      </button>`;
+    }).join("");
+    document.querySelectorAll("#wordList .word-row").forEach(b=>b.onclick=()=>{
+      const w=data.find(x=>wordJapanese(x)===b.dataset.word);
+      if(w)this.openWord(w);
+    });
+    document.getElementById("wordMore").disabled=this.wordsShown>=data.length;
+  }
+
+  openWord(w) {
+    const jp=wordJapanese(w), kana=wordKana(w), meaning=wordMeaning(w);
+    const body=`<div class="detail-center"><div class="jp" style="font-size:55px">${esc(jp||"—")}</div><div class="kana">${esc(kana||"—")}</div><p>${esc(meaning||"—")}</p><button class="btn primary" id="speakWord">🔊 Listen</button></div>`;
+    this.openModal("Vocabulary",body);
+    document.getElementById("speakWord").onclick=()=>this.speak(jp||kana);
+  }
+
+  renderGrammar() {
+    if(!this.grammar) return;
+    const q=document.getElementById("grammarSearch").value.trim().toLowerCase();
+    let data=this.grammar;
+    if(q)data=data.filter(g=>JSON.stringify(g).toLowerCase().includes(q));
+    document.getElementById("grammarCount").textContent=`${data.length.toLocaleString()} grammar points`;
+    document.getElementById("grammarList").innerHTML=data.slice(0,200).map(g=>{
+      const title=g.pattern||g.title||g.name||g.expression||g.id||"Grammar point";
+      const meaning=textOfMeaning(g.meaning||g.meanings||g.explanation||g.description||"");
+      const level=getLevel(g);
+      return `<button class="grammar-row" data-id="${esc(g.id||title)}"><div class="word-main"><div><b style="font-size:20px">${esc(title)}</b><div class="meaning">${esc(meaning)}</div></div>${level?`<span class="level-pill">${esc(level)}</span>`:""}</div></button>`;
+    }).join("");
+    document.querySelectorAll("#grammarList .grammar-row").forEach(b=>b.onclick=()=>{
+      const g=data.find(x=>String(x.id||x.pattern||x.title||x.name)===b.dataset.id);
+      if(g)this.openGrammar(g);
+    });
+  }
+
+  openGrammar(g) {
+    const title=g.pattern||g.title||g.name||g.expression||"Grammar";
+    const body=`<h2>${esc(title)}</h2><p>${esc(textOfMeaning(g.meaning||g.meanings||g.explanation||g.description||""))}</p>
+    <div class="info-grid"><div class="info-box"><small>JLPT</small><b>${esc(getLevel(g)||"—")}</b></div><div class="info-box"><small>Status</small><b>${esc(g.review_status||g.reviewStatus||"dataset")}</b></div></div>
+    <h3>Pattern / details</h3><pre style="white-space:pre-wrap;font:inherit;color:var(--muted)">${esc(JSON.stringify(g,null,2))}</pre>`;
+    this.openModal("Grammar",body);
+  }
+
+  buildReviewQueue() {
+    const now=Date.now();
+    const due=[];
+    const fresh=[];
+    for(const k of this.kanji){
+      const c=getChar(k);
+      const s=this.state.srs[c];
+      if(s?.due && s.due<=now)due.push(k);
+      else if(!s)fresh.push(k);
+    }
+    this.reviewQueue=[...due,...fresh].slice(0,50);
+    this.reviewIndex=Math.min(this.reviewIndex,Math.max(0,this.reviewQueue.length-1));
+  }
+
+  renderReview() {
+    this.buildReviewQueue();
+    const card=document.getElementById("reviewCard");
+    if(!this.reviewQueue.length){
+      card.innerHTML=`<div class="review-inner"><div class="review-char">🎉</div><h2>All caught up</h2><p class="muted">Come back later for another review.</p></div>`;
+      document.getElementById("reviewMeta").textContent="Nothing due right now";
+      return;
+    }
+    const k=this.reviewQueue[this.reviewIndex], c=getChar(k);
+    document.getElementById("reviewMeta").textContent=`${this.reviewIndex+1} / ${this.reviewQueue.length}`;
+    card.innerHTML=`<div class="review-inner"><div class="review-char">${esc(c)}</div><div class="review-reading">${esc(getOn(k)||getKun(k)||"")}</div><div class="review-meaning">${esc(getMean(k)||"")}</div><div class="review-extra">${esc(getLevel(k)||"")} · ${esc(getStrokes(k)||"")} strokes</div><button class="btn outline" id="reviewSpeak" style="margin-top:20px">🔊 Japanese</button></div>`;
+    document.getElementById("reviewSpeak").onclick=()=>this.speak(c);
+  }
+
+  rate(rating) {
+    if(!this.reviewQueue.length)return;
+    const k=this.reviewQueue[this.reviewIndex], c=getChar(k);
+    const old=this.state.srs[c]||{interval:0,ease:2.5,reps:0,lapses:0};
+    let interval=old.interval||0, ease=old.ease||2.5, reps=old.reps||0;
+    if(rating==="again"){interval=0;ease=Math.max(1.3,ease-.2);reps=0;old.lapses=(old.lapses||0)+1;}
+    if(rating==="hard"){interval=Math.max(1,Math.round((interval||1)*1.2));ease=Math.max(1.3,ease-.15);reps++;}
+    if(rating==="good"){interval=interval<1?1:Math.max(2,Math.round(interval*ease));reps++;}
+    if(rating==="easy"){interval=interval<1?4:Math.max(4,Math.round(interval*ease*1.3));ease+=.15;reps++;}
+    const day=24*60*60*1000;
+    old.interval=interval;old.ease=ease;old.reps=reps;old.due=Date.now()+interval*day;old.last=Date.now();
+    this.state.srs[c]=old;
+    if(!this.state.studied.includes(c))this.state.studied.push(c);
+    if((rating==="good"||rating==="easy") && reps>=2 && !this.state.mastered.includes(c))this.state.mastered.push(c);
+    this.state.reviews++;
+    this.markStudy();
+    this.reviewIndex++;
+    if(this.reviewIndex>=this.reviewQueue.length)this.reviewIndex=0;
+    this.renderReview();this.renderHome();this.renderProgress();
+  }
+
+  markStudy() {
+    const today=new Date().toISOString().slice(0,10);
+    if(this.state.lastStudy!==today){
+      if(!this.state.lastStudy)this.state.streak=1;
+      else{
+        const a=new Date(this.state.lastStudy),b=new Date(today);
+        const d=Math.round((b-a)/86400000);
+        this.state.streak=d===1?this.state.streak+1:1;
+      }
+      this.state.lastStudy=today;
+    }
+    localStorage.setItem(STORAGE,JSON.stringify(this.state));
+  }
+
+  renderProgress() {
+    const total=this.kanji.length, mastered=this.state.mastered.length;
+    const pct=total?Math.round(mastered/total*100):0;
+    document.getElementById("overallPercent").textContent=`${pct}%`;
+    document.getElementById("overallRing").style.background=`conic-gradient(var(--primary) ${pct*3.6}deg, #e9e9f0 ${pct*3.6}deg)`;
+    document.getElementById("progressTitle").textContent=pct?`${pct}% of loaded kanji mastered`:"Start your first review";
+    document.getElementById("progressText").textContent=`${mastered.toLocaleString()} of ${total.toLocaleString()} kanji marked mastered.`;
+    document.getElementById("progressLevels").innerHTML=["N5","N4","N3","N2","N1"].map(l=>{
+      const t=this.kanji.filter(k=>getLevel(k)===l).length;
+      const m=this.state.mastered.filter(c=>getLevel(this.kanjiByChar.get(c))===l).length;
+      const p=t?Math.round(m/t*100):0;
+      return `<div class="card"><div class="word-main"><b>${l}</b><span>${m.toLocaleString()} / ${t.toLocaleString()}</span></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
+    }).join("");
+  }
+
+  currentWritingChar(){return getChar(this.kanji[this.writingIndex]||this.kanji[0])}
+
+  renderWritingTarget() {
+    const k=this.kanji[this.writingIndex]||this.kanji[0]; if(!k)return;
+    document.getElementById("writingChar").textContent=getChar(k);
+    document.getElementById("writingMeaning").textContent=getMean(k)||"Kanji";
+    document.getElementById("writingReading").textContent=`${getOn(k)||"—"} · ${getKun(k)||"—"}`;
+    this.clearCanvas();
+    document.getElementById("strokeBox").innerHTML=`<div class="stroke-placeholder">Tap “Show stroke order”.</div>`;
+  }
+
+  async showStroke() {
+    const c=this.currentWritingChar();
+    const svg=await this.loader.strokeSVG(c,this.strokeIndex);
+    const box=document.getElementById("strokeBox");
+    if(svg){
+      box.innerHTML=svg;
+      const s=box.querySelector("svg");
+      if(s){s.style.width="270px";s.style.height="270px";s.style.maxWidth="100%";}
+    }else box.innerHTML=`<div class="stroke-placeholder">No KanjiVG SVG is available for this character.</div>`;
+  }
+
+  nextWriting() {
+    this.writingIndex=(this.writingIndex+1)%this.kanji.length;
+    this.renderWritingTarget();
+  }
+
+  setupCanvas() {
+    this.canvas=document.getElementById("drawCanvas");
+    if(!this.canvas)return;
+    this.resizeCanvas();
+    const start=e=>{
+      this.drawing=true;const p=this.point(e);this.ctx.beginPath();this.ctx.moveTo(p.x,p.y);
+    };
+    const move=e=>{
+      if(!this.drawing)return;const p=this.point(e);this.ctx.lineTo(p.x,p.y);this.ctx.stroke();
+    };
+    const end=()=>this.drawing=false;
+    this.canvas.onpointerdown=start;this.canvas.onpointermove=move;this.canvas.onpointerup=end;this.canvas.onpointerleave=end;
+  }
+
+  resizeCanvas() {
+    if(!this.canvas)return;
+    const r=this.canvas.getBoundingClientRect(), d=window.devicePixelRatio||1;
+    const old=document.createElement("canvas");
+    if(this.canvas.width && this.canvas.height) old.getContext("2d").drawImage(this.canvas,0,0);
+    this.canvas.width=r.width*d;this.canvas.height=300*d;
+    this.ctx=this.canvas.getContext("2d");this.ctx.scale(d,d);
+    this.ctx.lineWidth=4;this.ctx.lineCap="round";this.ctx.lineJoin="round";
+  }
+
+  point(e){const r=this.canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+  clearCanvas(){if(this.ctx)this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)}
+
+  speak(text){
+    if(!("speechSynthesis" in window)){this.toast("Speech is not supported");return;}
+    speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="ja-JP";u.rate=.8;speechSynthesis.speak(u);
+  }
+
+  toggleFavorite(c){
+    if(this.state.favorites.includes(c))this.state.favorites=this.state.favorites.filter(x=>x!==c);
+    else this.state.favorites.push(c);
+    localStorage.setItem(STORAGE,JSON.stringify(this.state));
+  }
+
+  openModal(title,body){
+    document.getElementById("modalTitle").textContent=title;
+    document.getElementById("modalBody").innerHTML=body;
+    document.getElementById("modal").classList.add("show");
+    document.getElementById("modal").setAttribute("aria-hidden","false");
+  }
+  closeModal(){
+    document.getElementById("modal").classList.remove("show");
+    document.getElementById("modal").setAttribute("aria-hidden","true");
+  }
+
+  exportProgress(){
+    const blob=new Blob([JSON.stringify(this.state,null,2)],{type:"application/json"});
+    const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="kotoba-progress.json";a.click();URL.revokeObjectURL(a.href);
+  }
+
+  async importProgress(file){
+    if(!file)return;
+    try{
+      const incoming=JSON.parse(await file.text());
+      if(!incoming || typeof incoming!=="object")throw new Error();
+      this.state={...defaultState(),...incoming,settings:{...defaultState().settings,...(incoming.settings||{})}};
+      localStorage.setItem(STORAGE,JSON.stringify(this.state));
+      location.reload();
+    }catch{this.toast("Invalid progress file");}
+  }
+
+  resetProgress(){
+    if(!confirm("Reset all Kotoba progress on this device?"))return;
+    localStorage.removeItem(STORAGE);location.reload();
+  }
+
+  toast(message){
+    const t=document.getElementById("toast");t.textContent=message;t.classList.add("show");clearTimeout(this.toastTimer);this.toastTimer=setTimeout(()=>t.classList.remove("show"),1800);
+  }
+}
+
+
+const loader = new DataLoader();
+const app = new KotobaApp(loader);
+app.init().catch(err => {
+  console.error(err);
+  const el = document.getElementById("loadingText");
+  if (el) el.textContent = "Data could not be loaded. Please refresh and try again.";
+});
 </script>
 </body>
 </html>
